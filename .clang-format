@@ -1,3 +1,5 @@
+BasedOnStyle: LLVM
+
 Language: Cpp
 Standard: Cpp11
 
@@ -5,5 +7,5 @@ ColumnLimit: 90
 UseTab: Never
 IndentWidth: 4
 TabWidth: 2
-
-BasedOnStyle: LLVM
+IndentAccessModifiers: false
+AccessModifierOffset: -4
