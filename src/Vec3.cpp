@@ -19,14 +19,10 @@ double Vec3::length() const { return std::sqrt(length_squared()); }
 
 double Vec3::length_squared() const { return x() * x() + y() * y() + z() * z(); }
 
-double Vec3::dot(const Vec3& o) const { return x() * o.x() + y() * o.y() + z() * o.z(); }
-
 Vec3 Vec3::cross(const Vec3& o) const {
     return Vec3(y() * o.z() - z() * o.y(), z() * o.x() - x() * o.z(),
                 x() * o.y() - y() * o.x());
 }
-
-Vec3 Vec3::unit_vector() const { return (*this) / length(); }
 
 Vec3 Vec3::operator+(const Vec3& o) const {
     return Vec3(x() + o.x(), y() + o.y(), z() + o.z());

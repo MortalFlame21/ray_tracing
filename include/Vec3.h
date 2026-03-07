@@ -16,9 +16,7 @@ public:
     double z() const;
     double length() const;
     double length_squared() const;
-    double dot(const Vec3& o) const;
     Vec3 cross(const Vec3& o) const;
-    Vec3 unit_vector() const;
     Vec3 operator+(const Vec3& o) const;
     Vec3 operator-(const Vec3& o) const;
     Vec3 operator*(const Vec3& o) const;
@@ -32,5 +30,9 @@ private:
     std::array<double, 3> m_e;
 };
 
-std::ostream& operator<<(std::ostream& out, Vec3 v);
+inline double dot(const Vec3& u, const Vec3& v) {
+    return u.x() * v.x() + u.y() * v.y() + u.z() * v.z();
+}
+inline Vec3 unit_vector(const Vec3& v) { return v / v.length(); }
+std::ostream& operator<<(std::ostream& out, const Vec3& v);
 Vec3 operator*(double t, const Vec3& o);
