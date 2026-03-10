@@ -1,21 +1,27 @@
 #include <iostream>
+#include <cmath>
 
 #include "Color.h"
 #include "Ray.h"
 #include "Vec3.h"
 
-bool hit_sphere(const Vec3& center, double radius, const Ray& r) {
+double hit_sphere(const Vec3& center, double radius, const Ray& r) {
     Vec3 oc{center - r.origin()};
     auto a{dot(r.direction(), r.direction())}; // a = d*d
     auto b{-2.0 * dot(r.direction(), oc)};     // b = -2 * (C - Q)
     auto c{dot(oc, oc) - radius * radius};     // c = (C - Q) * (C - Q) - r^2
     auto discriminant{b * b - 4 * a * c};      // b^2 - 4ac
-    return discriminant >= 0;                  // 1 or 2 roots
+
+    // 1 or 2 roots
+    return (discriminant < 0) ? -1.0 : (-b - std::sqrt(discriminant)) / (2.0 * a);
 }
 
 Color ray_color(const Ray& r) {
-    if (hit_sphere(Vec3(0, 0, -1), 0.5, r))
-        return Color(1, 0, 0);
+    auto t { hit_sphere(Vec3(0, 0, -1), 0.5, r) };
+    if (t > 0.0) {
+        auto n { unit_vector(r.at(t) - Vec3(0, 0, -1))};
+        return 0.5 * Color(n.x() + 1, n.y() + 1, n.z() + 1);
+    }
 
     auto unit_direction{unit_vector(r.direction())};
     auto a{0.5 * (unit_direction.y() + 1.0)};
