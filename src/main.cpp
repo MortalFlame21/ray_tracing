@@ -7,13 +7,13 @@
 
 double hit_sphere(const Vec3& center, double radius, const Ray& r) {
     Vec3 oc{center - r.origin()};
-    auto a{dot(r.direction(), r.direction())}; // a = d*d
-    auto b{-2.0 * dot(r.direction(), oc)};     // b = -2 * (C - Q)
-    auto c{dot(oc, oc) - radius * radius};     // c = (C - Q) * (C - Q) - r^2
-    auto discriminant{b * b - 4 * a * c};      // b^2 - 4ac
+    auto a{r.direction().length_squared()};
+    auto h{dot(r.direction(), oc)};
+    auto c{oc.length_squared() - radius * radius};
+    auto discriminant{h * h - a * c};
 
     // 1 or 2 roots
-    return (discriminant < 0) ? -1.0 : (-b - std::sqrt(discriminant)) / (2.0 * a);
+    return (discriminant < 0) ? -1.0 : (h - std::sqrt(discriminant)) / a;
 }
 
 Color ray_color(const Ray& r) {
