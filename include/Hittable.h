@@ -2,7 +2,10 @@
 
 #include "Ray.h"
 
-struct HitRecord {
+class HitRecord {
+public:
+    void set_face_normal(const Ray& r, const Vec3& outward_normal);
+
     Vec3 m_point;
     Vec3 m_normal;
     double m_time;

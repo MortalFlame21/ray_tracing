@@ -2,6 +2,12 @@
 
 #include "Hittable.h"
 
+void HitRecord::set_face_normal(const Ray& r, const Vec3& outward_normal) {
+    const auto front_face{dot(r.direction(), outward_normal) < 0};
+    // either ray is inside the sphere or outside.
+    m_normal = front_face ? outward_normal : -outward_normal;
+}
+
 Sphere::Sphere() : m_center{}, m_radius{} {};
 
 Sphere::Sphere(const Vec3& center, double radius)
@@ -28,7 +34,8 @@ bool Sphere::hit(const Ray& r, double ray_t_min, double ray_t_max, HitRecord& re
 
     rec.m_time = root;
     rec.m_point = r.at(rec.m_time);
-    rec.m_normal = (rec.m_point - m_center) / m_radius;
+    Vec3 outward_normal{(rec.m_point - m_center) / m_radius};
+    rec.set_face_normal(r, outward_normal);
 
     return true;
 }
