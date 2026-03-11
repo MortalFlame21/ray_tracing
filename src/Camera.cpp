@@ -18,15 +18,10 @@ void Camera::render(const Hittable& world) {
     for (int j{}; j < m_img_h; ++j) {
         std::clog << "\rScanlines remaining: " << (m_img_h - j) << ' ' << std::flush;
         for (int i{}; i < m_img_w; ++i) {
-            // auto pixel_center{m_pixel00_loc + (i * m_pixel_delta_u) +
-            //                   (j * m_pixel_delta_v)};
-            // auto ray_direction{pixel_center - m_center};
-            // Ray r(m_center, ray_direction);
-            // auto pixel_color{ray_color(r, world)};
-
             Color pixel_color{};
+
             for (int sample{}; sample < m_samples_per_pixel; ++sample) {
-                Ray r { get_ray(i, j) };
+                Ray r{get_ray(i, j)};
                 pixel_color += ray_color(r, world);
             }
 
@@ -59,8 +54,9 @@ void Camera::initialise() {
 
 Color Camera::ray_color(const Ray& r, const Hittable& world) const {
     HitRecord rec{};
-    if (world.hit(r, Interval(0, infinity), rec))
+    if (world.hit(r, Interval(0, infinity), rec)) {
         return 0.5 * (rec.m_normal + Color(1, 1, 1));
+    }
 
     auto unit_direction{unit_vector(r.direction())};
     auto a{0.5 * (unit_direction.y() + 1.0)};
@@ -69,9 +65,8 @@ Color Camera::ray_color(const Ray& r, const Hittable& world) const {
 
 Ray Camera::get_ray(int i, int j) const {
     auto offset{sample_square()};
-    auto pixel_sample{m_pixel00_loc
-                    + ((i + offset.x()) * m_pixel_delta_u)
-                    + ((j + offset.y()) * m_pixel_delta_v)};
+    auto pixel_sample{m_pixel00_loc + ((i + offset.x()) * m_pixel_delta_u) +
+                      ((j + offset.y()) * m_pixel_delta_v)};
     auto ray_direction{pixel_sample - m_center};
     return Ray(m_center, ray_direction);
 }
