@@ -6,7 +6,7 @@
 
 using Color = Vec3;
 
-void write_color(const Color& pixel_color) {
+inline void write_color(const Color& pixel_color) {
     auto r{pixel_color.x()};
     auto g{pixel_color.y()};
     auto b{pixel_color.z()};
