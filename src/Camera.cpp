@@ -58,8 +58,8 @@ Color Camera::ray_color(const Ray& r, int depth, const Hittable& world) const {
         return Color(0, 0, 0);
 
     HitRecord rec{};
-    if (world.hit(r, Interval(0, infinity), rec)) {
-        auto direction{random_on_hemisphere(rec.m_normal)};
+    if (world.hit(r, Interval(0.001, infinity), rec)) {
+        auto direction{rec.m_normal + random_unit_vector()};
         return 0.5 * ray_color(Ray(rec.m_point, direction), depth - 1, world);
     }
 
