@@ -3,12 +3,13 @@
 #include "Interval.h"
 #include "Util.h"
 
-Camera::Camera() : Camera(1.0, 100, 10) {}
+Camera::Camera() : Camera(1.0, 100, 10, 10) {}
 
-Camera::Camera(double aspect_ratio, int img_w, int samples_per_pixel)
+Camera::Camera(double aspect_ratio, int img_w, int samples_per_pixel, int max_depth)
     : m_aspect_ratio{aspect_ratio}, m_pixel_samples_scale{},
-      m_samples_per_pixel{samples_per_pixel}, m_img_w{img_w}, m_img_h{}, m_center{},
-      m_pixel00_loc{}, m_pixel_delta_u{}, m_pixel_delta_v{} {
+      m_samples_per_pixel{samples_per_pixel}, m_img_w{img_w}, m_img_h{},
+      m_max_depth{max_depth}, m_center{}, m_pixel00_loc{}, m_pixel_delta_u{},
+      m_pixel_delta_v{} {
     initialise();
 }
 
@@ -22,7 +23,7 @@ void Camera::render(const Hittable& world) {
 
             for (int sample{}; sample < m_samples_per_pixel; ++sample) {
                 Ray r{get_ray(i, j)};
-                pixel_color += ray_color(r, world);
+                pixel_color += ray_color(r, m_max_depth, world);
             }
 
             write_color(m_pixel_samples_scale * pixel_color);
@@ -52,11 +53,14 @@ void Camera::initialise() {
     m_pixel00_loc = viewport_upper_left + 0.5 * (m_pixel_delta_u + m_pixel_delta_v);
 }
 
-Color Camera::ray_color(const Ray& r, const Hittable& world) const {
+Color Camera::ray_color(const Ray& r, int depth, const Hittable& world) const {
+    if (depth <= 0)
+        return Color(0, 0, 0);
+
     HitRecord rec{};
     if (world.hit(r, Interval(0, infinity), rec)) {
         auto direction{random_on_hemisphere(rec.m_normal)};
-        return 0.5 * ray_color(Ray(rec.m_point, direction), world);
+        return 0.5 * ray_color(Ray(rec.m_point, direction), depth - 1, world);
     }
 
     auto unit_direction{unit_vector(r.direction())};
