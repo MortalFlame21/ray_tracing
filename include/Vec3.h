@@ -44,7 +44,7 @@ inline Vec3 unit_vector(const Vec3& v) { return v / v.length(); }
 inline Vec3 random_unit_vector() {
     // Rejection method: Reject bad vector samples until we find a good one.
     while (true) {
-        auto p{Vec3::gen_random(-1, -1)};
+        auto p{Vec3::gen_random(-1, 1)};
         auto len_sq{p.length_squared()};
 
         if (1e-160 < len_sq && len_sq <= 1)
