@@ -8,6 +8,7 @@
 constexpr auto g_ASPECT_RATIO{16.0 / 9.0};
 constexpr auto g_WIDTH{400};
 constexpr auto g_SAMPLES_PER_PIXEL{100};
+constexpr auto g_MAX_DEPTH{50};
 
 int main() {
     // world
@@ -15,6 +16,6 @@ int main() {
                         std::make_shared<Sphere>(Vec3(0, -100.5, -1), 100)});
 
     // camera
-    Camera camera(g_ASPECT_RATIO, g_WIDTH, g_SAMPLES_PER_PIXEL);
+    Camera camera(g_ASPECT_RATIO, g_WIDTH, g_SAMPLES_PER_PIXEL, g_MAX_DEPTH);
     camera.render(world);
 }
