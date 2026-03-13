@@ -37,3 +37,22 @@ bool Metal::scatter(const Ray& r, const HitRecord& rec, Color& attenuation,
     return dot(scattered.direction(), rec.m_normal) > 0;
 }
 // End Metal
+
+// Start Dielectric
+Dielectric::Dielectric(double refraction_index) : m_refraction_index{refraction_index} {}
+
+bool Dielectric::scatter(const Ray& r, const HitRecord& rec, Color& attenuation,
+                         Ray& scattered) const {
+    attenuation = Color(1.0, 1.0, 1.0);
+    auto ri{rec.m_front_face ? (1.0 / m_refraction_index) : m_refraction_index};
+    auto unit_dir{unit_vector(r.direction())};
+
+    auto cos_theta{std::fmin(dot(-unit_dir, rec.m_normal), 1.0)};
+    auto sin_theta{std::sqrt(1.0 - cos_theta * cos_theta)};
+    Vec3 dir{(ri * sin_theta > 1.0) ? reflect(unit_dir, rec.m_normal)
+                                    : refract(unit_dir, rec.m_normal, ri)};
+
+    scattered = Ray(rec.m_point, dir);
+    return true;
+}
+// End Dielectric

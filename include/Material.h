@@ -36,3 +36,14 @@ private:
     Color m_albedo;
     double m_fuzz;
 };
+
+class Dielectric : public Material {
+public:
+    Dielectric(double refraction_index);
+
+    bool scatter(const Ray& r, const HitRecord& rec, Color& attenuation,
+                 Ray& scattered) const override;
+
+private:
+    double m_refraction_index;
+};
