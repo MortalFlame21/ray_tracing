@@ -27,7 +27,7 @@ public:
 class Sphere : public Hittable {
 public:
     Sphere();
-    Sphere(const Vec3& center, double radius);
+    Sphere(const Vec3& center, double radius, std::shared_ptr<Material> material);
     bool hit(const Ray& r, const Interval& ray_t, HitRecord& rec) const override;
 
 private:

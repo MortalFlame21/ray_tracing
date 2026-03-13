@@ -11,10 +11,10 @@ void HitRecord::set_face_normal(const Ray& r, const Vec3& outward_normal) {
 // End HitRecord
 
 // Start Sphere
-Sphere::Sphere() : m_center{}, m_radius{} {};
+Sphere::Sphere() : Sphere({}, {}, {}) {};
 
-Sphere::Sphere(const Vec3& center, double radius)
-    : m_center{center}, m_radius{std::fmax(0, radius)} {}
+Sphere::Sphere(const Vec3& center, double radius, std::shared_ptr<Material> material)
+    : m_center{center}, m_radius{std::fmax(0, radius)}, m_material{material} {}
 
 bool Sphere::hit(const Ray& r, const Interval& ray_t, HitRecord& rec) const {
     Vec3 oc{m_center - r.origin()};
