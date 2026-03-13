@@ -63,3 +63,10 @@ inline Vec3 random_on_hemisphere(const Vec3& normal) {
 }
 
 inline Vec3 reflect(const Vec3& v, const Vec3& n) { return v - 2 * dot(v, n) * n; }
+
+inline Vec3 refract(const Vec3& v, const Vec3& n, double etai_over_etat) {
+    auto cos_theta{std::fmin(dot(-v, n), 1.0)};
+    auto r_out_perp{etai_over_etat * (v + cos_theta * n)};
+    auto r_out_parallel{-std::sqrt(std::fabs(1.0 - r_out_perp.length_squared())) * n};
+    return r_out_perp + r_out_parallel;
+}
