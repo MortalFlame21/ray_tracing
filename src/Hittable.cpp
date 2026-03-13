@@ -4,9 +4,9 @@
 
 // Start HitRecord
 void HitRecord::set_face_normal(const Ray& r, const Vec3& outward_normal) {
-    const auto front_face{dot(r.direction(), outward_normal) < 0};
+    m_front_face = dot(r.direction(), outward_normal) < 0;
     // either ray is inside the sphere or outside.
-    m_normal = front_face ? outward_normal : -outward_normal;
+    m_normal = m_front_face ? outward_normal : -outward_normal;
 }
 // End HitRecord
 

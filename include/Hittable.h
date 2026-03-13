@@ -16,6 +16,7 @@ public:
     Vec3 m_normal;
     std::shared_ptr<Material> m_material;
     double m_time;
+    bool m_front_face;
 };
 
 class Hittable {
