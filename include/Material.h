@@ -8,16 +8,29 @@ class Material {
 public:
     virtual ~Material() = default;
 
-    virtual bool scatter(const Ray& r, const HitRecord& rec, Color& attenuation,
-                         Ray& scattered) const;
+    virtual bool scatter([[maybe_unused]] const Ray& r,
+                         [[maybe_unused]] const HitRecord& rec,
+                         [[maybe_unused]] Color& attenuation,
+                         [[maybe_unused]] Ray& scattered) const;
 };
 
 class Lambertian : public Material {
 public:
-    Lambertian::Lambertian(const Color& albedo);
+    Lambertian(const Color& albedo);
 
-    virtual bool scatter(const Ray& r, const HitRecord& rec, Color& attenuation,
-                         Ray& scattered) const override;
+    bool scatter([[maybe_unused]] const Ray& r, const HitRecord& rec, Color& attenuation,
+                 Ray& scattered) const override;
+
+private:
+    Color m_albedo;
+};
+
+class Metal : public Material {
+public:
+    Metal(const Color& albedo);
+
+    bool scatter(const Ray& r, const HitRecord& rec, Color& attenuation,
+                 Ray& scattered) const override;
 
 private:
     Color m_albedo;
