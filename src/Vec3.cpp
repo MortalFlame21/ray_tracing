@@ -34,11 +34,6 @@ bool Vec3::near_zero() const {
     return (std::fabs(x()) < s) && (std::fabs(y()) < s) && (std::fabs(z()) < s);
 }
 
-Vec3 Vec3::cross(const Vec3& o) const {
-    return Vec3(y() * o.z() - z() * o.y(), z() * o.x() - x() * o.z(),
-                x() * o.y() - y() * o.x());
-}
-
 Vec3 Vec3::operator+(const Vec3& o) const {
     return Vec3(x() + o.x(), y() + o.y(), z() + o.z());
 }
