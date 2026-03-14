@@ -74,3 +74,11 @@ inline Vec3 refract(const Vec3& v, const Vec3& n, double etai_over_etat) {
     auto r_out_parallel{-std::sqrt(std::fabs(1.0 - r_out_perp.length_squared())) * n};
     return r_out_perp + r_out_parallel;
 }
+
+inline Vec3 random_in_unit_disk() {
+    while (true) {
+        if (auto p{Vec3(gen_random_double(-1, 1), gen_random_double(-1, 1), 0)};
+            p.length_squared() < 1)
+            return p;
+    }
+}
