@@ -7,7 +7,8 @@ class Camera {
 public:
     Camera();
     Camera(double aspect_ratio, int img_h, int samples_per_pixel, int max_depth,
-           double vertical_fov);
+           double vertical_fov, const Vec3& look_from, const Vec3& look_at,
+           const Vec3& vec_up);
     void render(const Hittable& world);
 
 private:
@@ -22,6 +23,12 @@ private:
     Vec3 m_pixel00_loc;
     Vec3 m_pixel_delta_u;
     Vec3 m_pixel_delta_v;
+    Vec3 m_look_from;
+    Vec3 m_look_at;
+    Vec3 m_vec_up;
+    Vec3 m_w;
+    Vec3 m_v;
+    Vec3 m_u;
 
     void initialise();
     Color ray_color(const Ray& r, int depth, const Hittable& world) const;
