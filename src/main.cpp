@@ -10,10 +10,12 @@ constexpr auto g_ASPECT_RATIO{16.0 / 9.0};
 constexpr auto g_WIDTH{400};
 constexpr auto g_SAMPLES_PER_PIXEL{100};
 constexpr auto g_MAX_DEPTH{50};
-constexpr auto g_VFOV{90};
+constexpr auto g_VFOV{20};
 const auto g_LOOK_FROM{Vec3(-2, 2, 1)};
 const auto g_LOOK_AT{Vec3(0, 0, -1)};
 const auto g_VEC_UP{Vec3(0, 1, 0)};
+constexpr auto g_DEFOCUS_ANGLE{10.0};
+constexpr auto g_FOCUS_DIST{3.4};
 
 const auto material_ground{std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0))};
 const auto material_center{std::make_shared<Lambertian>(Color(0.1, 0.2, 0.5))};
@@ -32,6 +34,6 @@ int main() {
 
     // camera
     Camera camera(g_ASPECT_RATIO, g_WIDTH, g_SAMPLES_PER_PIXEL, g_MAX_DEPTH, g_VFOV,
-                  g_LOOK_FROM, g_LOOK_AT, g_VEC_UP);
+                  g_LOOK_FROM, g_LOOK_AT, g_VEC_UP, g_DEFOCUS_ANGLE, g_FOCUS_DIST);
     camera.render(world);
 }
