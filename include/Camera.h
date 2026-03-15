@@ -8,13 +8,15 @@ public:
     Camera();
     Camera(double aspect_ratio, int img_h, int samples_per_pixel, int max_depth,
            double vertical_fov, const Vec3& look_from, const Vec3& look_at,
-           const Vec3& vec_up);
+           const Vec3& vec_up, double defocus_angle, double focus_dist);
     void render(const Hittable& world);
 
 private:
     double m_aspect_ratio;
     double m_pixel_samples_scale;
     double m_vertical_fov;
+    double m_defocus_angle;
+    double m_focus_dist;
     int m_samples_per_pixel;
     int m_img_w;
     int m_img_h;
@@ -29,9 +31,12 @@ private:
     Vec3 m_w;
     Vec3 m_v;
     Vec3 m_u;
+    Vec3 m_defocus_disk_u;
+    Vec3 m_defocus_disk_v;
 
     void initialise();
     Color ray_color(const Ray& r, int depth, const Hittable& world) const;
     Ray get_ray(int i, int j) const;
     Vec3 sample_square() const;
+    Vec3 defocus_disk_sample() const;
 };
